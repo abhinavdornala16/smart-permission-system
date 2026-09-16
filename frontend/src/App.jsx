@@ -31,6 +31,9 @@ import CoordinatorSubstituteManagement from './pages/coordinator/SubstituteManag
 import HODDashboard from './pages/hod/Dashboard';
 
 // Admin Pages
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminReports from './pages/admin/Reports';
+import AdminAuditLogs from './pages/admin/AuditLogs';
 import UserManagement from './pages/admin/UserManagement';
 import WorkflowConfigPage from './pages/admin/WorkflowConfig';
 
@@ -221,7 +224,7 @@ const App = () => {
             path="admin/dashboard"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
-                <HODDashboard />
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
@@ -245,7 +248,7 @@ const App = () => {
             path="admin/reports"
             element={
               <ProtectedRoute allowedRoles={['admin', 'hod', 'coordinator']}>
-                <HODDashboard />
+                <AdminReports />
               </ProtectedRoute>
             }
           />
@@ -253,7 +256,7 @@ const App = () => {
             path="admin/audit-logs"
             element={
               <ProtectedRoute allowedRoles={['admin', 'hod']}>
-                <HODDashboard />
+                <AdminAuditLogs />
               </ProtectedRoute>
             }
           />

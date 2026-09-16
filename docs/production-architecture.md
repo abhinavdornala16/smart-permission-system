@@ -75,17 +75,17 @@ sequenceDiagram
     participant Backend as Central Flask API
     participant DB as Central PostgreSQL DB
     participant FrontB as Frontend (Device B)
-    actor Approver as Class Teacher / HOD (Device B)
+    actor Approver as Mentor / Class Teacher / HOD (Device B)
 
     Student->>FrontA: Submits Permission Request (PER-1049)
     FrontA->>Backend: POST /api/permissions (JWT Bearer)
-    Backend->>DB: INSERT PermissionRequest (status: pending, current_approver: class_teacher)
-    Backend->>DB: INSERT Notification (user_id: class_teacher_id)
-    Backend-->>FrontA: 201 Created (Request Submitted)
+    Backend->>DB: INSERT PermissionRequest (status: pending, current_approver: mentor)
+Backend->>DB: INSERT Notification (user_id: mentor_id)
+Backend-->>FrontA: 201 Created (Request Submitted)
 
-    Note over FrontB,Approver: Background Polling every 8-10 seconds
-    FrontB->>Backend: GET /api/permissions/pending
-    Backend->>DB: SELECT * FROM permissions WHERE status='pending' AND approver=teacher_id
+Note over FrontB,Approver: Background Polling every 8-10 seconds
+FrontB->>Backend: GET /api/permissions/pending
+Backend->>DB: SELECT * FROM permissions WHERE status='pending' AND approver=mentor_id
     DB-->>Backend: [PER-1049 record]
     Backend-->>FrontB: 200 OK (PER-1049)
     FrontB-->>Approver: UI updates automatically without page reload!
@@ -111,11 +111,11 @@ sequenceDiagram
 [STUDENT APPLIES]
        │
        ▼
-[PENDING CLASS TEACHER]
+[PENDING MENTOR]
        ├──► (Rejected) ──► [REJECTED] ──► No QR Generated
        │
        ▼ (Approved)
-[PENDING MENTOR]
+[PENDING CLASS TEACHER]
        ├──► (Rejected) ──► [REJECTED] ──► No QR Generated
        │
        ▼ (Approved)
@@ -125,6 +125,7 @@ sequenceDiagram
        ▼ (Approved)
 [FULLY APPROVED] ──► [DIGITAL QR PASS GENERATED] ──► Public Verification Enabled
 ```
+> **Note**: The approval chain is DB-driven via `WorkflowConfig` and varies by type — e.g. `out_pass`/`personal`/`other` use *Mentor → Class Teacher → HOD*, while `medical` uses *Mentor → HOD* and `club_activity`/`college_event` use *Coordinator → HOD*.
 
 ### 3.2 Faculty Leave & Substitute Workflow
 ```
