@@ -42,11 +42,31 @@ class PermissionRequest(db.Model):
     qr_pass = db.relationship('QRPass', backref='request', uselist=False)
 
     def to_dict(self, include_history=False):
+        student_data = None
+        mentor_name = None
+        class_teacher_name = None
+        hod_name = None
+
+        if self.student:
+            student_data = self.student.to_dict(include_profile=True)
+            sp = self.student.student_profile
+            if sp:
+                if sp.mentor and sp.mentor.full_name:
+                    mentor_name = sp.mentor.full_name
+                if sp.class_teacher and sp.class_teacher.full_name:
+                    class_teacher_name = sp.class_teacher.full_name
+                dept = self.student.department_ref
+                if dept and dept.hod_id:
+                    from .user import User as _User
+                    hod_user = _User.query.get(dept.hod_id)
+                    if hod_user:
+                        hod_name = hod_user.full_name
+
         data = {
             'id': self.id,
             'request_number': self.request_number,
             'student_id': self.student_id,
-            'student': self.student.to_dict() if self.student else None,
+            'student': student_data,
             'permission_type': self.permission_type,
             'reason': self.reason,
             'date': self.date.isoformat() if self.date else None,
@@ -60,6 +80,9 @@ class PermissionRequest(db.Model):
             'current_approver_role': self.current_approver_role,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            'mentor_name': mentor_name,
+            'class_teacher_name': class_teacher_name,
+            'hod_name': hod_name,
         }
         if include_history:
             data['approval_timeline'] = [h.to_dict() for h in self.approval_history.all()]

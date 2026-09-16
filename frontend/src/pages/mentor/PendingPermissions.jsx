@@ -4,7 +4,7 @@ import StatusBadge from '../../components/StatusBadge';
 import Modal from '../../components/Modal';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import ApprovalTimeline from '../../components/ApprovalTimeline';
-import { FileText, CheckCircle2, XCircle, Clock, Search, Filter, User, Building } from 'lucide-react';
+import { FileText, CheckCircle2, XCircle, Clock, Search, Filter, User, Building, GraduationCap, UserCheck, ShieldCheck } from 'lucide-react';
 
 const PendingPermissions = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -97,6 +97,7 @@ const PendingPermissions = () => {
                   <th className="p-4">Type</th>
                   <th className="p-4">Date & Time</th>
                   <th className="p-4">Reason</th>
+                  <th className="p-4">Approval Chain</th>
                   <th className="p-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -118,6 +119,13 @@ const PendingPermissions = () => {
                       <span className="font-mono text-[11px] text-slate-500">{r.from_time} – {r.to_time}</span>
                     </td>
                     <td className="p-4 text-slate-600 max-w-[200px] truncate">{r.reason}</td>
+                    <td className="p-4">
+                      <div className="space-y-0.5 text-[10px] font-mono text-slate-500">
+                        <p><span className="text-indigo-500 font-bold">M:</span> {r.mentor_name || '—'}</p>
+                        <p><span className="text-sky-500 font-bold">CT:</span> {r.class_teacher_name || '—'}</p>
+                        <p><span className="text-emerald-500 font-bold">HOD:</span> {r.hod_name || '—'}</p>
+                      </div>
+                    </td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
@@ -159,7 +167,7 @@ const PendingPermissions = () => {
       >
         {selectedReq && (
           <div className="space-y-6 text-left text-xs">
-            {/* Student & Request Card */}
+            {/* Student Details & Approval Chain */}
             <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
@@ -169,6 +177,34 @@ const PendingPermissions = () => {
                   </p>
                 </div>
                 <StatusBadge status={selectedReq.status} />
+              </div>
+
+              {/* Approval chain: Mentor / Class Teacher / HOD */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 border-t border-indigo-200/60 pt-2">
+                <div className="p-2.5 rounded-xl bg-white/70 border border-indigo-100/60">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-500 flex items-center gap-1">
+                    <GraduationCap className="w-3 h-3" /> Mentor
+                  </p>
+                  <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">
+                    {selectedReq.mentor_name || '—'}
+                  </p>
+                </div>
+                <div className="p-2.5 rounded-xl bg-white/70 border border-indigo-100/60">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-500 flex items-center gap-1">
+                    <UserCheck className="w-3 h-3" /> Class Teacher
+                  </p>
+                  <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">
+                    {selectedReq.class_teacher_name || '—'}
+                  </p>
+                </div>
+                <div className="p-2.5 rounded-xl bg-white/70 border border-indigo-100/60">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-500 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3" /> HOD
+                  </p>
+                  <p className="text-xs font-bold text-slate-800 mt-0.5 truncate">
+                    {selectedReq.hod_name || '—'}
+                  </p>
+                </div>
               </div>
 
               <div className="border-t border-indigo-200/60 pt-2 space-y-1 text-slate-700">

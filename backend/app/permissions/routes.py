@@ -380,7 +380,10 @@ def cancel_request(request_id):
     if perm.student_id != user.id:
         return jsonify({'success': False, 'message': 'Access denied.', 'error': 'FORBIDDEN'}), 403
 
-    if perm.status not in ('pending', 'under_review'):
+    # Only allow cancellation while the request is still in initial pending state
+    # (before any approver has acted on it). Once under_review, the request is
+    # locked to the approval flow.
+    if perm.status != 'pending':
         return jsonify({'success': False, 'message': 'Only pending requests can be cancelled.', 'error': 'INVALID_STATUS'}), 400
 
     old_status = perm.status

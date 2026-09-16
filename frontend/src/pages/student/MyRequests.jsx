@@ -140,7 +140,7 @@ const MyRequests = () => {
                           <span>Timeline</span>
                         </button>
 
-                        {['pending', 'under_review'].includes(r.status) && (
+                        {r.status === 'pending' && (
                           <button
                             onClick={() => handleCancelRequest(r.id)}
                             className="p-1.5 rounded-lg text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors flex items-center gap-1 text-[11px] font-bold"
