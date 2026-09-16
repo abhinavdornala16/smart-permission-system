@@ -9,9 +9,10 @@ from app import create_app
 from app.extensions import db
 
 app = create_app()
+IS_DEVELOPMENT = os.getenv('FLASK_ENV', 'development').lower() == 'development'
 
 def _sync_sqlite_columns():
-    """Ensure newly added columns exist in sqlite tables."""
+    """Ensure newly added columns exist in sqlite tables (development only)."""
     try:
         cols = [c[1] for c in db.session.execute(text("PRAGMA table_info(faculty_leave)")).fetchall()]
         new_cols = {
@@ -31,16 +32,17 @@ def _sync_sqlite_columns():
     except Exception as e:
         db.session.rollback()
 
-# Create tables on startup (development only)
-with app.app_context():
-    # Import all models to ensure they're registered
-    from app.models import *  # noqa: F401, F403
-    db.create_all()
-    _sync_sqlite_columns()
-    print("[+] Database tables created/verified.")
+# Create tables on startup (development only; production uses schema_supabase.sql / migrations)
+if IS_DEVELOPMENT:
+    with app.app_context():
+        # Import all models to ensure they're registered
+        from app.models import *  # noqa: F401, F403
+        db.create_all()
+        _sync_sqlite_columns()
+        print("[+] Database tables created/verified.")
 
 if __name__ == '__main__':
-    print("[+] Starting Smart Permission System API...")
+    print(f"[+] Starting Smart Permission System API ({os.getenv('FLASK_ENV', 'development')})...")
     print("[+] API: http://localhost:5000/api")
     print("[+] Health: http://localhost:5000/api/health")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=IS_DEVELOPMENT)

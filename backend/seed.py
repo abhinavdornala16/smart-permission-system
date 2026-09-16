@@ -30,8 +30,10 @@ from app.utils.qr import generate_qr_pass
 
 
 def _sync_sqlite_columns():
-    """Ensure newly added columns exist in sqlite tables."""
+    """Ensure newly added columns exist in sqlite tables (no-op on other engines)."""
     from sqlalchemy import text
+    if not db.engine.url.drivername.startswith('sqlite'):
+        return
     try:
         cols = [c[1] for c in db.session.execute(text("PRAGMA table_info(faculty_leave)")).fetchall()]
         new_cols = {
