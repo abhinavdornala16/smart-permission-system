@@ -2,9 +2,11 @@ import axios from 'axios';
 
 // Dynamically resolve API URL: uses VITE_API_URL in production or defaults to /api proxy in development
 const getBaseURL = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-  if (!envUrl) return '/api';
-  const cleanUrl = envUrl.replace(/\/+$/, '');
+  const raw = (import.meta.env.VITE_API_URL || '').trim();
+  if (!raw) return '/api';
+  const match = raw.match(/https?:\/\/[^\s'"<>]+/);
+  const url = match ? match[0] : raw;
+  const cleanUrl = url.replace(/\/+$/, '');
   return cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`;
 };
 
