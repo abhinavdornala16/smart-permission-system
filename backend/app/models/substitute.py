@@ -1,6 +1,6 @@
 """Substitute request model."""
-from datetime import datetime
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class SubstituteRequest(db.Model):
@@ -20,8 +20,8 @@ class SubstituteRequest(db.Model):
     room = db.Column(db.String(20), nullable=True)
     status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected, cancelled
     response_reason = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
+    updated_at = db.Column(db.DateTime, default=utcnow, onupdate=utcnow)
 
     STATUSES = ['pending', 'accepted', 'rejected', 'cancelled']
 

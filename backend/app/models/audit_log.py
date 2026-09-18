@@ -1,6 +1,7 @@
 """Audit log model for accountability tracking."""
 from datetime import datetime
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class AuditLog(db.Model):
@@ -16,7 +17,7 @@ class AuditLog(db.Model):
     new_status = db.Column(db.String(20), nullable=True)
     remarks = db.Column(db.Text, nullable=True)
     ip_address = db.Column(db.String(45), nullable=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    timestamp = db.Column(db.DateTime, default=utcnow, index=True)
 
     user = db.relationship('User', backref='audit_logs')
 

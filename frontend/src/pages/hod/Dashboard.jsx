@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import DashboardCard from '../../components/DashboardCard';
-import StatusBadge from '../../components/StatusBadge';
 import ChartCard from '../../components/ChartCard';
-import Modal from '../../components/Modal';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import {
-  Users,
-  QrCode,
-  UserCheck,
-  CheckCircle2,
-  Clock,
-  BarChart3,
-  Building2,
-  ShieldCheck,
-  XCircle
-} from 'lucide-react';
+import { Users, QrCode, UserCheck, CheckCircle2 } from 'lucide-react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -33,7 +21,7 @@ const HODDashboard = () => {
   const [pendingPermissions, setPendingPermissions] = useState([]);
   const [pendingLeaves, setPendingLeaves] = useState([]);
   const [reportData, setReportData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [confirmAction, setConfirmAction] = useState(null); // { entity: 'permission'|'leave', action: 'approve'|'reject', id }
 
   const fetchData = async (silent = false) => {

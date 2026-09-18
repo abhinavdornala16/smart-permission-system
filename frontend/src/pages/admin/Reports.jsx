@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
 import ChartCard from '../../components/ChartCard';
 import {
@@ -27,7 +27,7 @@ const AdminReports = () => {
   const [permReport, setPermReport] = useState(null);
   const [leaveReport, setLeaveReport] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [permRes, leaveRes] = await Promise.all([
         api.get(`/reports/permissions?days=${days}`),
@@ -38,11 +38,11 @@ const AdminReports = () => {
     } catch (e) {
       console.error('Failed to load reports:', e);
     }
-  };
+  }, [days]);
 
   useEffect(() => {
     fetchData();
-  }, [days]);
+  }, [fetchData]);
 
   const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#0ea5e9'];
 

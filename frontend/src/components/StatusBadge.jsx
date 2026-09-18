@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, CheckCircle2, XCircle, AlertCircle, Slash, UserCheck, ShieldCheck } from 'lucide-react';
+import { Clock, CheckCircle2, XCircle, AlertCircle, Slash } from 'lucide-react';
 
 const StatusBadge = ({ status, size = 'normal' }) => {
   const normalized = (status || '').toLowerCase().replace(/_/g, ' ');

@@ -22,8 +22,10 @@ const NotificationBell = () => {
   };
 
   useEffect(() => {
-    fetchNotifications();
-    const interval = setInterval(fetchNotifications, 10000); // Poll every 10s
+    (async () => {
+      await fetchNotifications();
+    })();
+    const interval = setInterval(() => fetchNotifications(), 10000); // Poll every 10s
     return () => clearInterval(interval);
   }, []);
 

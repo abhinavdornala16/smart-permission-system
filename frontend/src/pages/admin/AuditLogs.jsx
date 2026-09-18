@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
-import StatusBadge from '../../components/StatusBadge';
-import { FileText, Filter, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { Filter, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 
 const AdminAuditLogs = () => {
   const [logs, setLogs] = useState([]);
@@ -11,7 +10,7 @@ const AdminAuditLogs = () => {
   const [loading, setLoading] = useState(true);
   const [entityFilter, setEntityFilter] = useState('');
 
-  const fetchLogs = async (silent = false) => {
+  const fetchLogs = useCallback(async (silent = false) => {
     try {
       if (!silent) setLoading(true);
       const params = { page, per_page: 25 };
@@ -28,11 +27,11 @@ const AdminAuditLogs = () => {
     } finally {
       if (!silent) setLoading(false);
     }
-  };
+  }, [page, entityFilter]);
 
   useEffect(() => {
     fetchLogs();
-  }, [page, entityFilter]);
+  }, [fetchLogs]);
 
   const handleFilterChange = (value) => {
     setEntityFilter(value);

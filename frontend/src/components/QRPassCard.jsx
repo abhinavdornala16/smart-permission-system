@@ -1,8 +1,8 @@
 import React from 'react';
-import { QrCode, Calendar, Clock, MapPin, User, Download, Printer, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { QrCode, Calendar, Clock, MapPin, User, Printer, ShieldCheck } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 
-const QRPassCard = ({ pass, permission, onDownload, onPrint }) => {
+const QRPassCard = ({ pass, permission }) => {
   if (!pass) return null;
 
   const isExpired = new Date() > new Date(pass.expires_at);

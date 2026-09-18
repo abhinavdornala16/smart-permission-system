@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import DashboardCard from '../../components/DashboardCard';
@@ -7,13 +7,10 @@ import StatusBadge from '../../components/StatusBadge';
 import Modal from '../../components/Modal';
 import ApplyLeave from './ApplyLeave';
 import {
-  Calendar,
   Clock,
   UserCheck,
   PlusCircle,
   CheckCircle2,
-  AlertCircle,
-  ArrowRight,
   BookOpen,
   UserX,
   FileText,
@@ -56,7 +53,9 @@ const FacultyDashboard = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    (async () => {
+      await fetchData();
+    })();
     const interval = setInterval(() => fetchData(true), 8000);
     return () => clearInterval(interval);
   }, []);

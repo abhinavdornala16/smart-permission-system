@@ -12,12 +12,13 @@ Total: Exactly 21 Demo Users.
 """
 import sys
 import os
-from datetime import date, time, datetime, timedelta
+from datetime import date, time, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from app import create_app
 from app.extensions import db
+from app.utils.time_utils import utcnow
 from app.models.user import User, Student, Faculty, Department, Section
 from app.models.timetable import FacultyTimetable, FacultyAvailability
 from app.models.workflow import WorkflowConfig
@@ -689,7 +690,7 @@ def _run_seed():
         to_time=time(17, 0),
         status='pending_hod',
         current_approver='hod',
-        coordinator_approved_at=datetime.utcnow() - timedelta(hours=2),
+        coordinator_approved_at=utcnow() - timedelta(hours=2),
         coordinator_remarks='Substitute arrangements verified. Recommended for approval.'
     )
     db.session.add(fl2)
@@ -737,9 +738,9 @@ def _run_seed():
         session='full_day',
         status='approved',
         current_approver=None,
-        coordinator_approved_at=datetime.utcnow() - timedelta(days=6),
+        coordinator_approved_at=utcnow() - timedelta(days=6),
         coordinator_remarks='Conference participation verified.',
-        hod_approved_at=datetime.utcnow() - timedelta(days=5, hours=18),
+        hod_approved_at=utcnow() - timedelta(days=5, hours=18),
         hod_remarks='Approved. Good luck with the conference presentation.'
     )
     db.session.add(fl3)

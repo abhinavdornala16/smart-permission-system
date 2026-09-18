@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   Clock,
   Building2,
-  ShieldCheck,
   XCircle,
   Activity
 } from 'lucide-react';
@@ -30,7 +29,7 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({});
   const [reportData, setReportData] = useState(null);
   const [leaveReport, setLeaveReport] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   const fetchData = async (silent = false) => {
     try {

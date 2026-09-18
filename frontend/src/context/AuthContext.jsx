@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../api/axios';
-
-const AuthContext = createContext(null);
+import { AuthContext } from './auth-context';
 
 export const AuthProvider = ({ children }) => {
   const normalizeUserData = (data) => {
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post('/auth/logout');
-    } catch (e) {
+    } catch {
       // Ignore logout errors
     } finally {
       localStorage.removeItem('access_token');
@@ -77,12 +76,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

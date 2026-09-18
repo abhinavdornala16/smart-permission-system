@@ -1,6 +1,7 @@
 """Notification model."""
 from datetime import datetime
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class Notification(db.Model):
@@ -15,7 +16,7 @@ class Notification(db.Model):
     entity_type = db.Column(db.String(30), nullable=True)  # permission, leave, substitute
     entity_id = db.Column(db.Integer, nullable=True)
     is_read = db.Column(db.Boolean, default=False, index=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    created_at = db.Column(db.DateTime, default=utcnow, index=True)
 
     def to_dict(self):
         return {

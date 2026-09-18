@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../api/axios';
-import { ShieldCheck, AlertOctagon, Clock, User, Calendar, MapPin, Building2 } from 'lucide-react';
+import { ShieldCheck, AlertOctagon, Clock, User, Calendar, Building2 } from 'lucide-react';
 
 const VerifyPass = () => {
   const { passId } = useParams();

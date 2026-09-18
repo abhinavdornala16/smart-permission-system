@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import DashboardCard from '../../components/DashboardCard';
@@ -11,25 +11,20 @@ import {
   FileText,
   Clock,
   CheckCircle2,
-  XCircle,
   QrCode,
   PlusCircle,
-  ArrowRight,
-  ShieldCheck,
-  UserCheck
+  ArrowRight
 } from 'lucide-react';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
   const [requests, setRequests] = useState([]);
   const [passes, setPasses] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [selectedPass, setSelectedPass] = useState(null);
 
-  const fetchData = async (silent = false) => {
+  const fetchData = async () => {
     try {
-      if (!silent) setLoading(true);
       const [reqRes, passRes] = await Promise.all([
         api.get('/permissions/my-requests?per_page=5'),
         api.get('/permissions/my-passes'),
@@ -43,14 +38,14 @@ const StudentDashboard = () => {
       }
     } catch (err) {
       console.error('Failed to load student dashboard:', err);
-    } finally {
-      if (!silent) setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-    const interval = setInterval(() => fetchData(true), 8000);
+    (async () => {
+      await fetchData();
+    })();
+    const interval = setInterval(() => fetchData(), 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -58,7 +53,6 @@ const StudentDashboard = () => {
   const totalCount = requests.length;
   const pendingCount = requests.filter((r) => ['pending', 'under_review'].includes(r.status)).length;
   const approvedCount = requests.filter((r) => r.status === 'approved').length;
-  const rejectedCount = requests.filter((r) => r.status === 'rejected').length;
   const activePasses = passes.filter((p) => p.is_valid);
 
   return (

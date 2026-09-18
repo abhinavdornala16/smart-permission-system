@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
 import StatusBadge from '../../components/StatusBadge';
 import Modal from '../../components/Modal';
 import ApprovalTimeline from '../../components/ApprovalTimeline';
 import QRPassCard from '../../components/QRPassCard';
-import { FileText, Eye, Ban, Filter, Search, QrCode } from 'lucide-react';
+import { Eye, Ban, Filter, QrCode } from 'lucide-react';
 
 const MyRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -13,7 +13,7 @@ const MyRequests = () => {
   const [selectedReq, setSelectedReq] = useState(null);
   const [timeline, setTimeline] = useState([]);
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       setLoading(true);
       let url = '/permissions/my-requests?per_page=50';
@@ -27,11 +27,13 @@ const MyRequests = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter]);
 
   useEffect(() => {
-    fetchRequests();
-  }, [statusFilter]);
+    (async () => {
+      await fetchRequests();
+    })();
+  }, [fetchRequests]);
 
   const handleViewTimeline = async (req) => {
     setSelectedReq(req);

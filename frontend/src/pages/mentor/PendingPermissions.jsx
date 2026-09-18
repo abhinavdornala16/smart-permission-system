@@ -4,7 +4,7 @@ import StatusBadge from '../../components/StatusBadge';
 import Modal from '../../components/Modal';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import ApprovalTimeline from '../../components/ApprovalTimeline';
-import { FileText, CheckCircle2, XCircle, Clock, Search, Filter, User, Building, GraduationCap, UserCheck, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, XCircle, GraduationCap, UserCheck, ShieldCheck } from 'lucide-react';
 
 const PendingPermissions = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -28,7 +28,9 @@ const PendingPermissions = () => {
   };
 
   useEffect(() => {
-    fetchPending();
+    (async () => {
+      await fetchPending();
+    })();
     const interval = setInterval(() => fetchPending(true), 8000);
     return () => clearInterval(interval);
   }, []);

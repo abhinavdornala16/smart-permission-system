@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Menu, User, LogOut, Shield, ChevronDown } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import NotificationBell from './NotificationBell';
 
 const Navbar = ({ onToggleSidebar }) => {

@@ -26,7 +26,7 @@ print("="*60)
 # 1. Health Check
 status, res = request_json(f"{BASE}/health")
 assert status == 200
-print(f"[OK] Health Check: {res['message']}")
+print(f"[OK] Health Check: {res['status']} | {res['service']} (DB: {res['database']})")
 
 # 2. Student Login
 status, res = request_json(f"{BASE}/auth/login", method="POST", data={"username": "rahul.sharma", "password": "student123"})

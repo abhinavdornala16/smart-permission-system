@@ -1,6 +1,6 @@
 """Faculty leave request and workflow history models."""
-from datetime import datetime
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class FacultyLeave(db.Model):
@@ -27,8 +27,8 @@ class FacultyLeave(db.Model):
     coordinator_remarks = db.Column(db.Text, nullable=True)
     hod_approved_at = db.Column(db.DateTime, nullable=True)
     hod_remarks = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
+    updated_at = db.Column(db.DateTime, default=utcnow, onupdate=utcnow)
 
     LEAVE_TYPES = ['medical', 'personal', 'official_work', 'conference', 'training', 'emergency', 'other']
     SESSIONS = ['morning', 'afternoon', 'full_day', 'custom']
@@ -86,7 +86,7 @@ class FacultyLeaveHistory(db.Model):
     action = db.Column(db.String(30), nullable=False)  # submitted, approved, rejected
     status_after = db.Column(db.String(30), nullable=False)  # pending_coordinator, pending_hod, approved, rejected
     remarks = db.Column(db.Text, nullable=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=utcnow)
 
     user = db.relationship('User', foreign_keys=[user_id])
 

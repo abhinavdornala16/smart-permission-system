@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import api from '../../api/axios';
-import { Calendar, Clock, MapPin, Phone, FileText, AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react';
+import { AlertCircle, CheckCircle2, ArrowRight } from 'lucide-react';
+
+const defaultDate = (() => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().split('T')[0];
+})();
 
 const ApplyPermission = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     permission_type: 'out_pass',
     reason: '',
-    date: new Date(Date.now() + 86400000).toISOString().split('T')[0], // Default tomorrow
+    date: defaultDate, // Default tomorrow
     from_time: '10:00',
     to_time: '16:00',
     destination: '',

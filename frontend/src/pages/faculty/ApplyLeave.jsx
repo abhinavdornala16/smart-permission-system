@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import api from '../../api/axios';
-import { Calendar, Clock, UserCheck, AlertCircle, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { AlertCircle, ArrowRight } from 'lucide-react';
+
+const defaultDate = (() => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().split('T')[0];
+})();
 
 const ApplyLeave = ({ onSuccess }) => {
-  const tomorrowStr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
   const [formData, setFormData] = useState({
     leave_type: 'personal',
-    start_date: tomorrowStr,
-    end_date: tomorrowStr,
+    start_date: defaultDate,
+    end_date: defaultDate,
     session: 'full_day',
     reason: '',
     remarks: '',
@@ -74,7 +79,7 @@ const ApplyLeave = ({ onSuccess }) => {
             if (subRes.data.success) {
               subsMap[cls.id] = subRes.data.data;
             }
-          } catch (e) {
+          } catch {
             // Ignore substitute fetch errors
           }
         }

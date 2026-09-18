@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -18,8 +18,7 @@ import {
   BarChart3,
   Calendar,
   CheckSquare,
-  History,
-  ShieldAlert
+  History
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {

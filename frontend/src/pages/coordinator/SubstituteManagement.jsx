@@ -9,8 +9,6 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
-  Calendar,
-  BookOpen,
   FileText,
   Eye,
   Check,
@@ -46,7 +44,9 @@ const CoordinatorSubstituteManagement = () => {
   };
 
   useEffect(() => {
-    fetchCoordinatorLeaves();
+    (async () => {
+      await fetchCoordinatorLeaves();
+    })();
     const interval = setInterval(() => fetchCoordinatorLeaves(true), 8000);
     return () => clearInterval(interval);
   }, []);

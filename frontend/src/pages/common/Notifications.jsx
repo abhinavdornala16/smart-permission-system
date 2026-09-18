@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import { Bell, Check, CheckCheck } from 'lucide-react';
+import { CheckCheck } from 'lucide-react';
 
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([]);
@@ -21,14 +21,16 @@ const NotificationsPage = () => {
   };
 
   useEffect(() => {
-    fetchNotifications();
+    (async () => {
+      await fetchNotifications();
+    })();
   }, []);
 
   const handleMarkAllRead = async () => {
     try {
       await api.post('/notifications/read-all');
       fetchNotifications();
-    } catch (e) {
+    } catch {
       alert('Failed to mark all read.');
     }
   };

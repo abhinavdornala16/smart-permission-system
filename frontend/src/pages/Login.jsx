@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { Building2, Lock, User, ArrowRight, ShieldCheck, KeyRound, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/useAuth';
+import { Building2, Lock, User, ArrowRight, KeyRound, Sparkles } from 'lucide-react';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -11,7 +11,6 @@ const Login = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, MapPin, User, BookOpen } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 const TimetableGrid = ({ entries = [], onSelectEntry, highlightLeave = false }) => {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

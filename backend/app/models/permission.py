@@ -1,6 +1,6 @@
 """Permission request and approval history models."""
-from datetime import datetime
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class PermissionRequest(db.Model):
@@ -22,8 +22,8 @@ class PermissionRequest(db.Model):
     status = db.Column(db.String(20), default='pending', index=True)
     current_approver_role = db.Column(db.String(30), nullable=True)
     current_approver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
+    updated_at = db.Column(db.DateTime, default=utcnow, onupdate=utcnow)
 
     # Permission types
     TYPES = [
@@ -58,7 +58,7 @@ class PermissionRequest(db.Model):
                 dept = self.student.department_ref
                 if dept and dept.hod_id:
                     from .user import User as _User
-                    hod_user = _User.query.get(dept.hod_id)
+                    hod_user = db.session.get(_User, dept.hod_id)
                     if hod_user:
                         hod_name = hod_user.full_name
 
@@ -101,7 +101,7 @@ class ApprovalHistory(db.Model):
     approver_role = db.Column(db.String(30), nullable=False)
     action = db.Column(db.String(20), nullable=False)  # approved, rejected
     remarks = db.Column(db.Text, nullable=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=utcnow)
 
     approver = db.relationship('User', foreign_keys=[approver_id])
 

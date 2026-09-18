@@ -8,6 +8,7 @@ from ..models.timetable import FacultyTimetable, FacultyAvailability
 from ..models.faculty_leave import FacultyLeave
 from ..models.substitute import SubstituteRequest
 from ..utils.decorators import role_required, get_current_user
+from ..utils.time_utils import utcnow
 from ..utils.permissions import create_audit_log
 from ..utils.notifications import create_notification
 
@@ -368,7 +369,7 @@ def coordinator_approve(leave_id):
 
     leave.status = 'pending_hod'
     leave.current_approver = 'hod'
-    leave.coordinator_approved_at = datetime.utcnow()
+    leave.coordinator_approved_at = utcnow()
     leave.coordinator_remarks = remarks
 
     # Record history
@@ -486,7 +487,7 @@ def hod_approve_leave(leave_id):
 
     leave.status = 'approved'
     leave.current_approver = None
-    leave.hod_approved_at = datetime.utcnow()
+    leave.hod_approved_at = utcnow()
     leave.hod_remarks = remarks
 
     # Record history

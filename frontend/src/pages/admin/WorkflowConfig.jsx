@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import Modal from '../../components/Modal';
-import { Clock, Plus, Trash2, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 const WorkflowConfigPage = () => {
   const [workflows, setWorkflows] = useState([]);
@@ -70,7 +70,7 @@ const WorkflowConfigPage = () => {
       if (res.data.success) {
         fetchWorkflows();
       }
-    } catch (err) {
+    } catch {
       alert('Failed to delete step.');
     }
   };
@@ -125,7 +125,7 @@ const WorkflowConfigPage = () => {
                 <p className="text-xs text-slate-400 italic">No workflow steps configured.</p>
               ) : (
                 <div className="space-y-2">
-                  {group.steps.map((step, idx) => (
+                  {group.steps.map((step) => (
                     <div
                       key={step.id}
                       className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs"

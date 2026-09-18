@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import StatusBadge from '../../components/StatusBadge';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { UserCheck, CheckCircle2, XCircle, Clock, MapPin, Calendar, BookOpen } from 'lucide-react';
+import { CheckCircle2, XCircle, Clock, MapPin, Calendar, BookOpen } from 'lucide-react';
 
 const SubstituteRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -24,7 +24,9 @@ const SubstituteRequests = () => {
   };
 
   useEffect(() => {
-    fetchRequests();
+    (async () => {
+      await fetchRequests();
+    })();
   }, []);
 
   const handleExecute = async (reason) => {

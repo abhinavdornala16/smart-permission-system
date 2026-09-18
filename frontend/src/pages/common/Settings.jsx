@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import api from '../../api/axios';
-import { Shield, KeyRound, CheckCircle2, User } from 'lucide-react';
+import { KeyRound, User } from 'lucide-react';
 
 const SettingsPage = () => {
   const { user } = useAuth();

@@ -1,7 +1,7 @@
 """User, Student, Faculty, Department, and Section models."""
-from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
+from ..utils.time_utils import utcnow
 
 
 class Department(db.Model):
@@ -14,7 +14,7 @@ class Department(db.Model):
     hod_id = db.Column(db.Integer, db.ForeignKey('users.id', use_alter=True, name='fk_department_hod'), nullable=True)
     second_hod_id = db.Column(db.Integer, db.ForeignKey('users.id', use_alter=True, name='fk_department_second_hod'), nullable=True)
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
 
     users = db.relationship('User', backref='department_ref', foreign_keys='User.department_id')
 
@@ -66,8 +66,8 @@ class User(db.Model):
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'), nullable=True)
     phone = db.Column(db.String(15), nullable=True)
     is_active = db.Column(db.Boolean, default=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=utcnow)
+    updated_at = db.Column(db.DateTime, default=utcnow, onupdate=utcnow)
 
     # Relationships
     student_profile = db.relationship('Student', foreign_keys='Student.user_id', backref='user', uselist=False, cascade='all, delete-orphan')

@@ -9,6 +9,7 @@ from ..models.permission import PermissionRequest, ApprovalHistory
 from ..models.qr_pass import QRPass
 from ..models.workflow import WorkflowConfig
 from ..utils.decorators import role_required, get_current_user
+from ..utils.time_utils import utcnow
 from ..utils.permissions import (
     get_first_approver_role, get_current_step_number,
     get_next_step, is_final_step, create_audit_log
@@ -430,7 +431,7 @@ def verify_pass(pass_number):
         }), 404
 
     perm = qr.request
-    now = datetime.utcnow()
+    now = utcnow()
 
     if qr.status == 'revoked' or (perm and perm.status == 'rejected'):
         verification_status = 'INVALID'

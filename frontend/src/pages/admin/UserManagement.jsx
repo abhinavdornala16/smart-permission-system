@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../api/axios';
 import Modal from '../../components/Modal';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { Users, UserPlus, Search, Edit3, Trash2, Shield, Filter } from 'lucide-react';
+import { UserPlus, Search, Trash2, Filter } from 'lucide-react';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
@@ -35,7 +35,7 @@ const UserManagement = () => {
     'admin',
   ];
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       let url = `/admin/users?per_page=50&search=${search}`;
@@ -49,11 +49,11 @@ const UserManagement = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, roleFilter]);
 
   useEffect(() => {
     fetchUsers();
-  }, [roleFilter, search]);
+  }, [fetchUsers]);
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
